@@ -1,6 +1,6 @@
 const target = 'https://huggingface.co'
 const cdn_target = 'https://cdn-lfs'
-const cdn_proxy = '<your cdn-lfs proxy address>'
+const cdn_proxy = 'https://hf-mirror.pages.dev'
 var s3_proxy = ''
 
 const allowMethods = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE']
