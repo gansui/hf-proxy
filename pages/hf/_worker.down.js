@@ -2,7 +2,6 @@ const target = 'https://huggingface.co'
 const target_site = 'huggingface.co'
 const cdn_target = 'https://cdn-lfs'
 const cdn_proxy = 'https://ghget.woodhub.us.kg/xdfxdg/'
-//const cdn_proxy = 'https://facebook.woodhub.us.kg'
 //const cdn_proxy = 'hf-mirror.pages.dev'
 //var s3_proxy = 'https://ghget.woodhub.us.kg/xdfxdg/'
 var s3_proxy = ''
@@ -47,7 +46,7 @@ async function handleRequest(request) {
 
   let proxyRequest = new Request(target + url.pathname + url.search , request)
 
-  proxyRequest.headers.set('Host', target_site)
+  proxyRequest.headers.set('Host', target_site) 
   proxyRequest.headers.set('Authority', target_site)
   proxyRequest.headers.set('Referer', target)
   //如果是HEAD则设置Accept-Encoding,否则HEAD有可能无法返回Content-Length导致错误
@@ -60,10 +59,6 @@ async function handleRequest(request) {
     proxyRequest.headers.set('Pragma', 'no-cache')
     proxyRequest.headers.set('Expires', '0')
     let head_response = await fetch(proxyRequest)
-
-    if(head_response.headers.has("X-Linked-Size")){
-        head_response.headers.set("Content-Length",head_response.headers.get("X-Linked-Size"))
-    }
 
     return head_response
   }
@@ -109,7 +104,8 @@ async function handleRequest(request) {
       const locationArray = location.split(".");
       const subdomain = locationArray[0].replace("https://", "");
       const newLocation = `${cdn_proxy}/${location}`;
-      const realDomain = `https://${subdomain}.huggingface.co`
+      //const realDomain = `https://${subdomain}.huggingface.co`
+      //const realDomain = `https://${subdomain}.hf.co`
       response.headers.set(
         'Location',
         newLocation
