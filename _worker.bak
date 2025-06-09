@@ -1,8 +1,5 @@
 "use strict";
 
-// 默认允许的区域，当ALLOWED_REGION未设置时使用
-const DEFAULT_ALLOWED_REGION = 'CN';
-
 const target = 'https://huggingface.co';
 const cdn_target = 'https://cdn-lfs';
 const xet_target = 'https://cas-bridge.xethub.hf.co';
@@ -161,20 +158,8 @@ async function proxyRequest(request, targetUrl) {
 
 
 // 主处理逻辑
-async function handleRequest(request, env) {
+async function handleRequest(request) {
   const url = new URL(request.url);
-  
-  // 区域限制检查
-  const allowedRegion = env.ALLOWED_REGION || DEFAULT_ALLOWED_REGION;
-  if (allowedRegion) {
-    const clientRegion = request.cf && request.cf.country;
-    if (clientRegion && clientRegion !== allowedRegion) {
-      return new Response(`Access denied.`, {
-        status: 403,
-        headers: { 'Content-Type': 'text/plain' }
-      });
-    }
-  }
 
   // 处理特殊路径 /login 和 /join
   if (url.pathname === '/login' || url.pathname === '/join') {
